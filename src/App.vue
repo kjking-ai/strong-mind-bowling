@@ -17,7 +17,12 @@ export default class App extends Vue {}
 </script>
 
 <style>
-  body {
-    padding: 40px;
-  }
+
+#app {
+  position: fixed;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 </style>
