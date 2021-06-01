@@ -26,3 +26,4 @@ export default class App extends Vue {}
   left: 0;
 }
 </style>
+

@@ -10,7 +10,7 @@
           </b-navbar-nav>
         </b-navbar>
       </div>
-
+    
       <div class="bowling-container">
         <div v-if="round <= tracker">
           <input
@@ -195,7 +195,7 @@ export default class Bowling extends Vue {
                 this.score[this.round - 2].total += point;
                 this.strike = false;
               }
-              // CONFIRMING SPARE AND SETTING TO TRUE
+              // CHECKING & SETTING SPARE
               if (this.shot.firstShot + this.shot.secondShot === 10) {
                 console.log("THIS IS A SPARE");
                 this.spare = true;
