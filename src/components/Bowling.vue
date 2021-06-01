@@ -124,6 +124,7 @@ export default class Bowling extends Vue {
   }
   // need to figure out how to get input here
   public checkPoint() {
+    
     if (this.point !== "") {
       let point: number = +this.point;
       point = Math.floor(point);
@@ -139,7 +140,9 @@ export default class Bowling extends Vue {
             // Add First Shot to Partial
             if (this.round <= 10) {
               this.shot.firstShot = point;
+              console.log('error1')
               this.shot.partialSum += point;
+              console.log('error2')
               if (this.strike === true) {
                 this.score[this.round - 2].partialSum += point;
                 this.score[this.round - 2].total += point;
@@ -156,8 +159,10 @@ export default class Bowling extends Vue {
                 this.score[this.round - 2].total += point;
                 this.spare = false;
               }
-            } else {
+            } else  {
+              
               if (this.strike === true) {
+                console.log('error1')
                 this.score[this.round - 2].partialSum += point;
                 this.score[this.round - 2].total += point;
                 if (
@@ -244,6 +249,7 @@ export default class Bowling extends Vue {
             } else {
               this.score[this.score.length - 1].partialSum += point;
               this.score[this.score.length - 1].total += point;
+              this.score[this.score.length - 1].secondShot = 10;
               this.score[this.score.length - 1].thirdShot = 10;
             }
           }
@@ -266,11 +272,10 @@ export default class Bowling extends Vue {
         }
       }
     }
-    if (this.round > 1 && this.round < 12) {
+    if (this.round > 1 && this.round < 13) {
       console.log("Round-2: ", this.round - 2);
       this.score[this.round - 2].total = this.globalScore;
     } else {
-      this.score[this.score.length - 1].secondShot = 10;
     }
   }
 
