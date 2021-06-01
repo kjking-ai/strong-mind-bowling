@@ -5,12 +5,11 @@
       <div class="navbar-bowling">
         <b-navbar type="light" variant="light">
           <b-navbar-nav>
-            <img class="bowling-img" src="../assets/bowling-pin.png" alt="">
+            <img class="bowling-img" src="../assets/bowling-pin.png" alt="" />
             <b-nav-item href="#">Bowling Score Tracker</b-nav-item>
           </b-navbar-nav>
         </b-navbar>
       </div>
-      
 
       <div class="bowling-container">
         <div v-if="round <= tracker">
@@ -62,7 +61,13 @@
             <tr v-for="(point, index) in score" :key="index">
               <td>{{ index + 1 }}</td>
               <td>{{ point.firstShot === 10 ? "X" : point.firstShot }}</td>
-              <td>{{ point.firstShot === 10 && point.secondShot === 0 ? "" : point.secondShot }}</td>
+              <td>
+                {{
+                  point.firstShot === 10 && point.secondShot === 0
+                    ? ""
+                    : point.secondShot
+                }}
+              </td>
               <td>{{ point.thirdShot === -1 ? "/" : point.thirdShot }}</td>
               <td>{{ point.total }}</td>
             </tr>
@@ -111,15 +116,15 @@ export default class Bowling extends Vue {
   public thirdShot: boolean = false;
 
   $refs!: {
-    afterClick: HTMLFormElement
-  }
+    afterClick: HTMLFormElement;
+  };
 
   public created() {
     console.log("Start game!");
   }
   // need to figure out how to get input here
   public checkPoint() {
-    if (this.point !== '') {
+    if (this.point !== "") {
       let point: number = +this.point;
       point = Math.floor(point);
       this.point = "";
@@ -133,45 +138,43 @@ export default class Bowling extends Vue {
           if (this.shot.firstShot === -1) {
             // Add First Shot to Partial
             if (this.round <= 10) {
-            this.shot.firstShot = point;
-            this.shot.partialSum += point;
-            if (this.strike === true) {
-              this.score[this.round - 2].partialSum += point;
-              this.score[this.round - 2].total += point;
-              if (
-                this.round >= 3 &&
-                this.score[this.round - 3].firstShot == 10
-              ) {
-                this.score[this.round - 3].partialSum += point;
-                this.score[this.round - 3].total += point;
+              this.shot.firstShot = point;
+              this.shot.partialSum += point;
+              if (this.strike === true) {
+                this.score[this.round - 2].partialSum += point;
+                this.score[this.round - 2].total += point;
+                if (
+                  this.round >= 3 &&
+                  this.score[this.round - 3].firstShot == 10
+                ) {
+                  this.score[this.round - 3].partialSum += point;
+                  this.score[this.round - 3].total += point;
+                }
               }
-            }
-            if (this.spare === true) {
-              this.score[this.round - 2].partialSum += point;
-              this.score[this.round - 2].total += point;
-              this.spare = false;
-            }
+              if (this.spare === true) {
+                this.score[this.round - 2].partialSum += point;
+                this.score[this.round - 2].total += point;
+                this.spare = false;
+              }
             } else {
               if (this.strike === true) {
-              this.score[this.round - 2].partialSum += point;
-              this.score[this.round - 2].total += point;
-              if (
-                this.round >= 3 &&
-                this.score[this.round - 3].firstShot == 10
-              ) {
-
-                this.score[this.round - 3].partialSum += point;
-                this.score[this.round - 3].total += point;
-                this.score[this.score.length-1].secondShot = point;
-                this.strike = false;
+                this.score[this.round - 2].partialSum += point;
+                this.score[this.round - 2].total += point;
+                if (
+                  this.round >= 3 &&
+                  this.score[this.round - 3].firstShot == 10
+                ) {
+                  this.score[this.round - 3].partialSum += point;
+                  this.score[this.round - 3].total += point;
+                  this.score[this.score.length - 1].secondShot = point;
+                  this.strike = false;
+                }
+              } else {
+                this.score[this.score.length - 1].thirdShot = point;
+                this.score[this.score.length - 1].total += point;
+                this.score[this.score.length - 1].partialSum += point;
+                this.round = 46;
               }
-            } else {
-                  this.score[this.score.length-1].thirdShot = point;
-                  this.score[this.score.length-1].total += point;
-                  this.score[this.score.length-1].partialSum += point;
-                  this.round = 46;
-            }
-              
             }
           } else {
             //SECOND SHOT
@@ -183,7 +186,7 @@ export default class Bowling extends Vue {
               } else {
                 this.shot.secondShot = point;
               }
-              
+
               if (this.strike === true) {
                 this.score[this.round - 2].partialSum += point;
                 this.score[this.round - 2].total += point;
@@ -197,24 +200,18 @@ export default class Bowling extends Vue {
                   this.tracker = 11;
                 }
               }
-             
+
               if (this.tracker <= 11) {
-              this.shot.partialSum += point;
-              this.score.push(this.shot)
-              this.round++;
-              this.resetShot();
-              }else {
-              this.shot.partialSum += point;
-              console.log('round: ', this.round);
-              console.log('game over: ', point);
-              this.round++;
-              
+                this.shot.partialSum += point;
+                this.score.push(this.shot);
+                this.round++;
+                this.resetShot();
+              } else {
+                this.shot.partialSum += point;
+                console.log("round: ", this.round);
+                console.log("game over: ", point);
+                this.round++;
               }
-               
-              
-                
-              
-              
             }
           }
         } else if (this.shot.firstShot == -1) {
@@ -233,24 +230,23 @@ export default class Bowling extends Vue {
             // error happens here
             if (this.tracker < 12) {
               if (this.score[this.round - 2].firstShot == 10) {
-              this.score[this.round - 2].partialSum += point;
-              this.score[this.round - 2].total += point;
-              if (
-                this.round >= 3 &&
-                this.score[this.round - 3].firstShot == 10
-              ) {
-                this.score[this.round - 3].partialSum += point;
+                this.score[this.round - 2].partialSum += point;
                 this.score[this.round - 2].total += point;
-                this.score[this.round - 3].total += point;
+                if (
+                  this.round >= 3 &&
+                  this.score[this.round - 3].firstShot == 10
+                ) {
+                  this.score[this.round - 3].partialSum += point;
+                  this.score[this.round - 2].total += point;
+                  this.score[this.round - 3].total += point;
+                }
               }
-            }
             } else {
-                this.score[this.score.length-1].partialSum += point;
-                this.score[this.score.length-1].total += point;
-                this.score[this.score.length-1].thirdShot = 10;
+              this.score[this.score.length - 1].partialSum += point;
+              this.score[this.score.length - 1].total += point;
+              this.score[this.score.length - 1].thirdShot = 10;
             }
-            
-        } 
+          }
 
           if (this.round == 10) {
             this.tracker = 11;
@@ -259,27 +255,27 @@ export default class Bowling extends Vue {
           if (this.round == 11) {
             this.tracker = 12;
           }
-          console.log('Tracker: ', this.tracker)
+          console.log("Tracker: ", this.tracker);
           if (this.round <= 10) {
             this.score.push(this.shot);
           }
           this.round++;
           this.resetShot();
           this.strike = true;
-          console.log('Round: ', this.round)
+          console.log("Round: ", this.round);
         }
       }
     }
     if (this.round > 1 && this.round < 12) {
-      console.log('Round-2: ', this.round-2)
-      this.score[this.round-2].total = this.globalScore;
+      console.log("Round-2: ", this.round - 2);
+      this.score[this.round - 2].total = this.globalScore;
     } else {
-      this.score[this.score.length-1].secondShot = 10;
+      this.score[this.score.length - 1].secondShot = 10;
     }
   }
 
   public resetShot() {
-      this.shot = {
+    this.shot = {
       firstShot: -1,
       secondShot: -1,
       thirdShot: -1,
