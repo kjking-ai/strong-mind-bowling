@@ -100,8 +100,6 @@ export default class Bowling extends Vue {
   public round: number = 1;
   // Global Tracker
   public tracker: number = 10;
-  // Used for 10th Framer to Track Strikes
-  public strikeTracker: number = 0;
   // Shot 1 or 2
   public shot: Shots = {
     firstShot: -1,
@@ -139,9 +137,7 @@ export default class Bowling extends Vue {
             // Add First Shot to Partial
             if (this.round <= 10) {
               this.shot.firstShot = point;
-              console.log("error1");
               this.shot.partialSum += point;
-              console.log("error2");
               if (this.strike === true) {
                 this.score[this.round - 2].partialSum += point;
                 this.score[this.round - 2].total += point;
@@ -160,7 +156,6 @@ export default class Bowling extends Vue {
               }
             } else {
               if (this.strike === true) {
-                console.log("error1");
                 this.score[this.round - 2].partialSum += point;
                 this.score[this.round - 2].total += point;
                 if (
@@ -182,7 +177,6 @@ export default class Bowling extends Vue {
           } else {
             //SECOND SHOT
             if (point + this.shot.firstShot > 10) {
-              console.log("error");
             } else {
               if (this.shot.secondShot == 0) {
                 this.shot.secondShot = 0;
@@ -196,8 +190,7 @@ export default class Bowling extends Vue {
                 this.strike = false;
               }
               // CHECKING & SETTING SPARE
-              if (this.shot.firstShot + this.shot.secondShot === 10) {
-                console.log("THIS IS A SPARE");
+              if (this.shot.firstShot + this.shot.secondShot === 10) {;
                 this.spare = true;
                 if (this.round == 10) {
                   this.tracker = 11;
@@ -211,14 +204,13 @@ export default class Bowling extends Vue {
                 this.resetShot();
               } else {
                 this.shot.partialSum += point;
-                console.log("round: ", this.round);
-                console.log("game over: ", point);
                 this.round++;
               }
             }
           }
-        } else if (this.shot.firstShot == -1) {
-          //STRIKE!!!
+        } 
+        else if (this.shot.firstShot == -1) {
+          
           this.shot.firstShot = point;
           this.shot.secondShot = 0;
           this.shot.partialSum = point;
@@ -259,19 +251,16 @@ export default class Bowling extends Vue {
           if (this.round == 11) {
             this.tracker = 12;
           }
-          console.log("Tracker: ", this.tracker);
           if (this.round <= 10) {
             this.score.push(this.shot);
           }
           this.round++;
           this.resetShot();
           this.strike = true;
-          console.log("Round: ", this.round);
         }
       }
     }
     if (this.round > 1 && this.round < 13) {
-      console.log("Round-2: ", this.round - 2);
       this.score[this.round - 2].total = this.globalScore;
     } else {
     }
